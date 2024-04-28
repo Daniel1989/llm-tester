@@ -243,6 +243,65 @@ ARCHITECTURE = {
     },
 }
 
+TESTER = {
+    'definitions': [
+        {
+            'name': 'process_tester',
+            'description': "Get code for unit test.",
+            'parameters': {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "description": "code for unit test."
+                    },
+                },
+                "required": ["code"],
+            },
+        },
+    ],
+    'functions': {
+        'process_technologies': lambda technologies: technologies
+    },
+}
+
+TESTER_LIST = {
+    'definitions': [
+        {
+            'name': 'process_tester',
+            'description': "Get code for unit test.",
+            'parameters': {
+                'type': 'object',
+                "properties": {
+                    "steps": {
+                        "type": "array",
+                        "description": "List of step to generate unit test",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "string",
+                                    "description": "code for unit test."
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "detail description for intermediate thought processes about this "
+                                                   "step",
+                                },
+                            },
+                            "required": ["code", "description"],
+                        },
+                    },
+                },
+                "required": ["steps"],
+            },
+        },
+    ],
+    'functions': {
+        'process_technologies': lambda technologies: technologies
+    },
+}
+
 COMMAND_TO_RUN = {
     'definitions': [
         {

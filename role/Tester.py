@@ -1,5 +1,5 @@
 
-from const.function_calls import ARCHITECTURE
+from const.function_calls import TESTER
 import platform
 from agent.AgentConvo import AgentConvo
 
@@ -12,15 +12,24 @@ WARN_FRAMEWORKS_URL = "https://github.com/Pythagora-io/gpt-pilot/wiki/Using-GPT-
 class Tester():
     def __init__(self):
         super().__init__()
-        self.role = 'architect'
+        self.role = 'tester'
         self.convo_architecture = None
 
     def getting_started(self):
         self.convo_architecture = AgentConvo(self)
-        llm_response = self.convo_architecture.send_message('architecture/technologies.prompt',
-                                                            {"os": platform.system(),
-                                                             },
-                                                            ARCHITECTURE
+        llm_response = self.convo_architecture.send_message('tester/technologies.prompt',
+                                                            {"os": platform.system()},
+                                                            TESTER
                                                             )
 
-        print("gpt response is\n", llm_response)
+        # with open('demo.js', 'w') as file:
+        #     code = ''
+        #     for item in llm_response["steps"]:
+        #         code += item["code"]
+        #     file.write(code)
+        # print("done")
+        print(llm_response)
+        with open('demo.js', 'w') as file:
+            code = llm_response["code"]
+            file.write(code)
+        print("done")

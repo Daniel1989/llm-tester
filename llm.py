@@ -14,6 +14,9 @@ from const.messages import AFFIRMATIVE_ANSWERS
 from exceptions import TokenLimitError, ApiKeyNotDefinedError, ApiError
 from utils import fix_json, get_prompt
 from function_calling import add_function_calls_to_request, FunctionCallSet, FunctionType
+import google.generativeai as genai
+genai.configure(api_key="AIzaSyDEjCM_7ziujkABwcy1Pz0z-xwgTVVGzCM")
+gemini = genai.GenerativeModel('gemini-pro')
 
 
 tokenizer = tiktoken.get_encoding("cl100k_base")
@@ -396,7 +399,14 @@ def stream_gpt_completion(data, req_type, model=None):
         data['model'] = model
 
     token_count = get_tokens_in_messages(data['messages'])
-
+    # contents = "\n".join([item["content"] for item in data['messages'][1:]])
+    # google_response = gemini.generate_content(contents=[{
+    #        "parts": {
+    #            "text": contents
+    #        },
+    #       "role": "user"
+    #     }], stream=False)
+    # print(google_response)
     response = requests.post(
         endpoint_url,
         headers=headers,
@@ -506,7 +516,7 @@ def assert_json_response(response: str, or_fail=True) -> bool:
     if re.match(r'.*(```(json)?|{|\[)', response):
         return True
     elif or_fail:
-        raise ValueError('LLM did not respond with JSON')
+        raise ValueError('LLM did not respond with JSON', response)
     else:
         return False
 
